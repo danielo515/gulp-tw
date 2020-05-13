@@ -32,8 +32,11 @@ const main = ({ author, pluginName, sources: _sources, outputDir = './plugins' }
     pluginInfo: './src/plugin.info',
     output: path.join(outputDir, author, pluginName)
   }
-  const sources = { ...defaults, ..._sources }
-  console.log('Using following source configurations: ', sources)
+  const sources = {
+    ...defaults,
+    ..._sources
+  }
+  console.log('Using following sources: ', sources)
   // ==================================================
   // ====================== TASKS =====================
   // ==================================================
@@ -74,6 +77,7 @@ const main = ({ author, pluginName, sources: _sources, outputDir = './plugins' }
     sass,
     serve,
     watch,
+    javascript: js,
     build,
     default: defaultTask
   }

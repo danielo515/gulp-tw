@@ -2,7 +2,7 @@ const path = require('path')
 const { jsHeader } = require('./wikiFile')
 const processStream = require('read-vinyl-file-stream')
 
-const alreadyHasHeader = content => (/^\/*\\$/).test(content)
+const alreadyHasHeader = content => content.trim().startsWith('/*\\\n')
 
 function javascript ({ author, pluginName }) {
   function iterator (content, file, stream, cb) {
