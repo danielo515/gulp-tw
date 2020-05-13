@@ -20,16 +20,17 @@ Sass.compiler = require('sass')
  * @param {string} config.author the author of the plugin
  * @param {string} config.pluginName
  * @param {sources} config.sources definition of the input sources
- * @param {string} config.outputDir where the compiled plugin should be output to
+ * @param {string} [config.sourceDir] relative path to source files
+ * @param {string} [config.outputDir] where the compiled plugin should be output to
  */
-const main = ({ author, pluginName, sources: _sources, outputDir = './plugins' }) => {
+const main = ({ author, pluginName, sources: _sources, sourceDir = './src', outputDir = './plugins' }) => {
   const { serve, buildTw, stopAnyRunningServer, pluginInfo } = require('./src/tiddlywiki')
   const { annotateCss } = require('./src/annotateCss')
   const defaults = {
-    sass: './src/**/*.scss',
-    tiddlers: './src/**/*.tid',
-    js: './src/**/*.js',
-    pluginInfo: './src/plugin.info',
+    sass: `${sourceDir}/**/*.scss`,
+    tiddlers: `${sourceDir}/**/*.tid`,
+    js: `${sourceDir}/**/*.js`,
+    pluginInfo: `${sourceDir}/plugin.info`,
     output: path.join(outputDir, author, pluginName)
   }
   const sources = {
@@ -69,7 +70,7 @@ const main = ({ author, pluginName, sources: _sources, outputDir = './plugins' }
   const build = gulp.series(defaultTask, buildTw)
 
   function watch () {
-    return gulp.watch('./src/**', { ignoreInitial: false }, gulp.series(defaultTask, stopAnyRunningServer, serve))
+    return gulp.watch(`${sourceDir}/**`, { ignoreInitial: false }, gulp.series(defaultTask, stopAnyRunningServer, serve))
   }
 
   return {
