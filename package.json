@@ -30,8 +30,14 @@
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^26.0.1"
   },
+  "peerDependencies": {
+    "tiddlywiki": "5.1.21"
+  },
   "dependencies": {
     "gulp-debug": "^4.0.0",
+    "gulp-sass": "^4.1.0",
+    "read-vinyl-file-stream": "^2.0.3",
+    "sass": "^1.26.5",
     "through2": "^3.0.1",
     "vinyl": "^2.2.0"
   }
