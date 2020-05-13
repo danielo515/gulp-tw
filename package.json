@@ -31,6 +31,7 @@
     "jest": "^26.0.1"
   },
   "peerDependencies": {
+    "gulp": "^4.0.2",
     "tiddlywiki": "5.1.21"
   },
   "dependencies": {

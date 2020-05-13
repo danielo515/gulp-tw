@@ -8,3 +8,18 @@ const wikiFile = ({ author, pluginName, tags }) => (fileName) => ({
 })
 
 exports.wikiFile = wikiFile
+
+const jsHeader = ({ author, pluginName, relativePath, content, type = 'application/javascript' }) =>
+`/*\\
+title: $:/plugins/${author}/${pluginName}/${relativePath}
+type: ${type}
+module-type: library
+
+@preserve
+
+\\*/
+
+${content}
+`
+
+exports.jsHeader = jsHeader

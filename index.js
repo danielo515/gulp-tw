@@ -1,17 +1,39 @@
 const gulp = require('gulp')
 const Sass = require('gulp-sass')
+const path = require('path')
+const { javascript } = require('./src/javascript')
 Sass.compiler = require('sass')
 
-const main = ({ author, pluginName }) => {
-  const { serve, buildTw, stopAnyRunningServer, pluginInfo } = require('./tiddlywiki')
+/**
+ *
+ * @typedef {Object} sources
+ * @prop {string} sources.tiddlers A glob to get the tiddler files
+ * @prop {string} sources.javascript A glob to get the javascript files
+ * @prop {string} sources.sass A glob to get the sass files
+ */
+
+/**
+ * Creates a module with gulp tasks for processing tiddliwiki files
+ * from a normal dev environment
+ *
+ * @param {Object} config object for configuring the generated module
+ * @param {string} config.author the author of the plugin
+ * @param {string} config.pluginName
+ * @param {sources} config.sources definition of the input sources
+ * @param {string} config.outputDir where the compiled plugin should be output to
+ */
+const main = ({ author, pluginName, sources: _sources, outputDir = './plugins' }) => {
+  const { serve, buildTw, stopAnyRunningServer, pluginInfo } = require('./src/tiddlywiki')
   const { annotateCss } = require('./src/annotateCss')
-  const sources = {
+  const defaults = {
     sass: './src/**/*.scss',
     tiddlers: './src/**/*.tid',
     js: './src/**/*.js',
     pluginInfo: './src/plugin.info',
-    output: `./plugins/${pluginName}`
+    output: path.join(outputDir, author, pluginName)
   }
+  const sources = { ...defaults, ..._sources }
+  console.log('Using following source configurations: ', sources)
   // ==================================================
   // ====================== TASKS =====================
   // ==================================================
@@ -28,7 +50,9 @@ const main = ({ author, pluginName }) => {
   }
 
   function js () {
-    return gulp.src(sources.js).pipe(gulp.dest(sources.output))
+    return gulp.src(sources.js)
+      .pipe(javascript({ author, pluginName }))
+      .pipe(gulp.dest(sources.output))
   }
 
   function processPluginInfo () {
