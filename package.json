@@ -1,0 +1,38 @@
+{
+  "name": "gulp-tw",
+  "version": "0.1.0",
+  "description": "Gulp plugin for easing the process of tiddlywiki specific files",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielo515/gulp-tw.git"
+  },
+  "keywords": [
+    "gulp",
+    "plugin",
+    "tiddlywiki"
+  ],
+  "author": "Danielo Rodriguez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danielo515/gulp-tw/issues"
+  },
+  "homepage": "https://github.com/danielo515/gulp-tw#readme",
+  "devDependencies": {
+    "eslint": "^7.0.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^26.0.1"
+  },
+  "dependencies": {
+    "gulp-debug": "^4.0.0",
+    "through2": "^3.0.1",
+    "vinyl": "^2.2.0"
+  }
+}

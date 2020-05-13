@@ -1,0 +1,21 @@
+{
+    "env": {
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": [
+        "standard"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaVersion": 11
+    },
+    "rules": {
+      "space-before-blocks":[1, {"functions": "always"} ],
+      "space-before-function-paren": [1, "always"]
+    }
+}
