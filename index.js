@@ -22,9 +22,22 @@ Sass.compiler = require('sass')
  * @param {sources} config.sources definition of the input sources
  * @param {string} [config.sourceDir] relative path to source files
  * @param {string} [config.outputDir] where the compiled plugin should be output to
+ * @param {string} [config.wikiDir] a directory to use as the root for the wiki server. Should contain a tiddlywiki.info file
  */
-const main = ({ author, pluginName, sources: _sources, sourceDir = './src', outputDir = './plugins' }) => {
-  const { serve, buildTw, stopAnyRunningServer, pluginInfo } = require('./src/tiddlywiki')
+const main = ({
+  author,
+  pluginName,
+  sources: _sources,
+  wikiDir = './',
+  sourceDir = './src',
+  outputDir = './plugins'
+}) => {
+  const {
+    serve,
+    buildTw,
+    stopAnyRunningServer,
+    pluginInfo
+  } = require('./src/tiddlywiki')({ wikiDir })
   const { annotateCss } = require('./src/annotateCss')
   const defaults = {
     sass: `${sourceDir}/**/*.scss`,
@@ -54,7 +67,8 @@ const main = ({ author, pluginName, sources: _sources, sourceDir = './src', outp
   }
 
   function js () {
-    return gulp.src(sources.js)
+    return gulp
+      .src(sources.js)
       .pipe(javascript({ author, pluginName }))
       .pipe(gulp.dest(sources.output))
   }
@@ -70,7 +84,11 @@ const main = ({ author, pluginName, sources: _sources, sourceDir = './src', outp
   const build = gulp.series(defaultTask, buildTw)
 
   function watch () {
-    return gulp.watch(`${sourceDir}/**`, { ignoreInitial: false }, gulp.series(defaultTask, stopAnyRunningServer, serve))
+    return gulp.watch(
+      `${sourceDir}/**`,
+      { ignoreInitial: false },
+      gulp.series(defaultTask, stopAnyRunningServer, serve)
+    )
   }
 
   return {

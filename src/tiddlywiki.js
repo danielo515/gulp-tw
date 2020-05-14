@@ -1,6 +1,7 @@
 const tiddlyWiki = require('tiddlywiki').TiddlyWiki
 const http = require('http')
 const through = require('through2')
+const stringify = (o) => JSON.stringify(o, null, 4)
 
 const _createServer = http.createServer
 let twServer
@@ -18,22 +19,42 @@ function runTiddlyWiki () {
   })
 }
 
-function buildTw (cb) {
-  runTiddlyWiki('./', '--verbose', '--build', 'index')
-  cb()
-}
+/**
+ * Creates a module with functions for building and serving tiddlywiki files
+ * @param {Object} config
+ * @param {string} config.wikiDir path to the wiki folder to use
+ */
+const main = ({ wikiDir }) => {
+  function stopAnyRunningServer (cb) {
+    if (!twServer) return cb()
+    twServer.close(cb)
+  }
 
-function stopAnyRunningServer (cb) {
-  if (!twServer) return cb()
-  twServer.close(cb)
-}
+  /**
+  * Builds a tiddlywiki index file
+  * @param {Function} cb callback to continue the gulp chain
+  */
+  function buildTw (cb) {
+    runTiddlyWiki(wikiDir, '--verbose', '--build', 'index')
+    cb()
+  }
 
-function serve (cb) {
-  runTiddlyWiki('./', '--verbose', '--server', '8087')
-  cb()
+  /**
+  * Starts a tiddlywiki server for testing the plugin
+  * @param {Function} cb callback to continue the gulp chain
+  */
+  function serve (cb) {
+    runTiddlyWiki(wikiDir, '--verbose', '--server', '8087')
+    cb()
+  }
+  return {
+    serve,
+    stopAnyRunningServer,
+    buildTw,
+    pluginInfo,
+    runTiddlyWiki
+  }
 }
-
-const stringify = (o) => JSON.stringify(o, null, 4)
 
 function pluginInfo () {
   return through.obj(function (file, enc, cb) {
@@ -45,10 +66,4 @@ function pluginInfo () {
   })
 }
 
-module.exports = {
-  serve,
-  stopAnyRunningServer,
-  buildTw,
-  pluginInfo,
-  runTiddlyWiki
-}
+module.exports = main
