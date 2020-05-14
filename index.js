@@ -50,7 +50,7 @@ const main = ({
     ...defaults,
     ..._sources
   }
-  console.log('Using following sources: ', sources)
+  console.log('Using following sources: \n', sources)
   // ==================================================
   // ====================== TASKS =====================
   // ==================================================
