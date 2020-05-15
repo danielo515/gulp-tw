@@ -1,6 +1,7 @@
 const through = require('through2')
 const Vinyl = require('vinyl')
 const path = require('path')
+const log = require('fancy-log')
 const { wikiFile: wf } = require('./wikiFile')
 const stringify = (o) => JSON.stringify(o, null, 4)
 /**
@@ -19,15 +20,15 @@ const annotateCss = ({ author, pluginName }) => {
     const folder = file.dirname
     cssFiles[folder] = cssFiles[folder] || { tiddlers: [] }
     cssFiles[folder].tiddlers.push(wikiFile(file.relative))
-    console.info('Registering css file: ', file.relative)
+    log('Registering css file: ', file.relative)
     next(null, file)
   }
 
   function flush (done) {
-    console.info('Tiddliwiki.files to generate: ', stringify(cssFiles))
+    log('Tiddliwiki.files to generate: ', stringify(cssFiles))
     Object.entries(cssFiles).forEach(([folder, tiddlyfiles]) => {
       const dest = path.join(folder, 'tiddlywiki.files')
-      console.info('Writting tiddlywiki.files: ', dest)
+      log.info('Writting tiddlywiki.files: ', dest)
       const file = new Vinyl({
         base: folder,
         path: dest,

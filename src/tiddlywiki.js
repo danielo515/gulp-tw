@@ -1,4 +1,5 @@
 const tiddlyWiki = require('tiddlywiki').TiddlyWiki
+const log = require('fancy-log')
 const http = require('http')
 const through = require('through2')
 const stringify = (o) => JSON.stringify(o, null, 4)
@@ -15,7 +16,7 @@ function runTiddlyWiki () {
   var $tw = tiddlyWiki()
   $tw.boot.argv = Array.prototype.slice.call(arguments, 0)
   $tw.boot.boot(function () {
-    console.log(arguments)
+    log(arguments)
   })
 }
 
@@ -61,7 +62,7 @@ function pluginInfo () {
     const content = JSON.parse(file.contents.toString(enc))
     content.released = new Date().toISOString()
     file.contents = Buffer.from(stringify(content))
-    console.log(content)
+    log(content)
     cb(null, file)
   })
 }

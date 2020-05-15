@@ -1,5 +1,6 @@
 const { tiddlerHeader } = require('./wikiFile')
 const processStream = require('read-vinyl-file-stream')
+const log = require('fancy-log')
 
 /**
  *
@@ -20,7 +21,7 @@ function html ({ author, pluginName }) {
      * @type {string}
      */
     const relativePath = file.relative.replace(/\.html$/, '')
-    console.info('Processing html file: ', file.relative)
+    log.info('Processing html file: ', file.relative)
     file.extname = '.tid'
     const newContent = tiddlerHeader({ author, pluginName, relativePath, content })
     cb(null, newContent)

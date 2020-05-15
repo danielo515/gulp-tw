@@ -1,4 +1,5 @@
 const gulp = require('gulp')
+const log = require('fancy-log')
 const Sass = require('gulp-sass')
 const path = require('path')
 const { javascript } = require('./src/javascript')
@@ -52,7 +53,7 @@ const main = ({
     ...defaults,
     ..._sources
   }
-  console.log('Using following sources: \n', sources)
+  log('Using following sources: \n', sources)
   // ==================================================
   // ====================== TASKS =====================
   // ==================================================

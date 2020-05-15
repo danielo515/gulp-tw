@@ -1,7 +1,7 @@
 const { jsHeader } = require('./wikiFile')
 const processStream = require('read-vinyl-file-stream')
-
-const alreadyHasHeader = content => content.trim().startsWith('/*\\\n')
+const log = require('fancy-log')
+const alreadyHasHeader = (content) => content.trim().startsWith('/*\\\n')
 
 /**
  *
@@ -22,9 +22,9 @@ function javascript ({ author, pluginName }) {
      * @type {string}
      */
     const relativePath = file.relative
-    console.info('Processing javascript file: ', file.relative)
-    if (alreadyHasHeader(content)){
-      console.info('File already has proper header')
+    log.info('Processing javascript file: ', file.relative)
+    if (alreadyHasHeader(content)) {
+      log.info('File already has proper header')
       return cb()
     }
     const newContent = jsHeader({ author, pluginName, relativePath, content })
