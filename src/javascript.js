@@ -1,11 +1,26 @@
-const path = require('path')
 const { jsHeader } = require('./wikiFile')
 const processStream = require('read-vinyl-file-stream')
 
 const alreadyHasHeader = content => content.trim().startsWith('/*\\\n')
 
+/**
+ *
+ * @param {Object} conf
+ * @param {string} conf.author
+ * @param {string} conf.pluginName
+ */
 function javascript ({ author, pluginName }) {
+  /**
+   * Iterates a stream of vinyl files
+   * @param {string} content the file contents
+   * @param {any} file The vinyl file object
+   * @param {any} stream the stream itself
+   * @param {Function} cb the callback to continue process chain
+   */
   function iterator (content, file, stream, cb) {
+    /**
+     * @type {string}
+     */
     const relativePath = file.relative
     console.info('Processing javascript file: ', file.relative)
     if (alreadyHasHeader(content)){
