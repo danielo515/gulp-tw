@@ -43,3 +43,24 @@ ${content}
 `
 
 exports.jsHeader = jsHeader
+/**
+ * Generates a tiddler content file with the proper metadata on the top
+ * @param {Object} options
+ * @param {string} options.author
+ * @param {string} options.pluginName
+ * @param {string} options.relativePath the file relative path. Used to keep a similar structure between filesystem and plugin namespace
+ * @param {string} options.content content
+ */
+const tiddlerHeader = ({
+  author,
+  pluginName,
+  relativePath,
+  content
+}) => `
+title: $:/plugins/${author}/${pluginName}/${relativePath}
+type: text/vnd.tiddlywiki
+
+${content}
+`.trim()
+
+exports.tiddlerHeader = tiddlerHeader

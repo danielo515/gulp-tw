@@ -2,6 +2,7 @@ const gulp = require('gulp')
 const Sass = require('gulp-sass')
 const path = require('path')
 const { javascript } = require('./src/javascript')
+const { html } = require('./src/html')
 Sass.compiler = require('sass')
 
 /**
@@ -43,6 +44,7 @@ const main = ({
     sass: `${sourceDir}/**/*.scss`,
     tiddlers: `${sourceDir}/**/*.tid`,
     js: `${sourceDir}/**/*.js`,
+    html: `${sourceDir}/**/*.html`,
     pluginInfo: `${sourceDir}/plugin.info`,
     output: path.join(outputDir, author, pluginName)
   }
@@ -73,6 +75,13 @@ const main = ({
       .pipe(gulp.dest(sources.output))
   }
 
+  function processHtml () {
+    return gulp
+      .src(sources.html)
+      .pipe(html({ author, pluginName }))
+      .pipe(gulp.dest(sources.output))
+  }
+
   function processPluginInfo () {
     return gulp
       .src(sources.pluginInfo)
@@ -80,7 +89,7 @@ const main = ({
       .pipe(gulp.dest(sources.output))
   }
 
-  const defaultTask = gulp.parallel(tiddlers, js, sass, processPluginInfo)
+  const defaultTask = gulp.parallel(tiddlers, js, sass, processHtml, processPluginInfo)
   const build = gulp.series(defaultTask, buildTw)
 
   function watch () {
@@ -97,6 +106,7 @@ const main = ({
     serve,
     watch,
     javascript: js,
+    processHtml,
     build,
     default: defaultTask
   }
