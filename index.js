@@ -5,7 +5,7 @@ const path = require('path')
 const { javascript } = require('./src/javascript')
 const { html } = require('./src/html')
 Sass.compiler = require('sass')
-
+const babel = require('gulp-babel')
 /**
  *
  * @typedef {Object} sources
@@ -54,6 +54,19 @@ const main = ({
     ..._sources
   }
   log('Using following sources: \n', sources)
+  const replaceInJs = { '@plugin': `$:/plugins/${author}/${pluginName}` }
+  const babelCfg = {
+    plugins: [
+      [
+        require.resolve('babel-plugin-module-resolver'),
+        {
+          root: ['./src/**'],
+          alias: replaceInJs,
+          loglevel: 'silent'
+        }
+      ]
+    ]
+  }
   // ==================================================
   // ====================== TASKS =====================
   // ==================================================
@@ -72,6 +85,7 @@ const main = ({
   function js () {
     return gulp
       .src(sources.js)
+      .pipe(babel(babelCfg))
       .pipe(javascript({ author, pluginName }))
       .pipe(gulp.dest(sources.output))
   }

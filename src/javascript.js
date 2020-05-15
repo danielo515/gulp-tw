@@ -2,7 +2,6 @@ const { jsHeader } = require('./wikiFile')
 const processStream = require('read-vinyl-file-stream')
 const log = require('fancy-log')
 const alreadyHasHeader = (content) => content.trim().startsWith('/*\\\n')
-
 /**
  *
  * @param {Object} conf
