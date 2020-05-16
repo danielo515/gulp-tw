@@ -51,12 +51,8 @@ exports.jsHeader = jsHeader
  * @param {string} options.relativePath the file relative path. Used to keep a similar structure between filesystem and plugin namespace
  * @param {string} options.content content
  */
-const tiddlerHeader = ({
-  author,
-  pluginName,
-  relativePath,
-  content
-}) => `
+const tiddlerHeader = ({ author, pluginName, relativePath, content }) =>
+  `
 title: $:/plugins/${author}/${pluginName}/${relativePath}
 type: text/vnd.tiddlywiki
 

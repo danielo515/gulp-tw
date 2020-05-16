@@ -56,6 +56,7 @@ const main = ({
   log('Using following sources: \n', sources)
   const replaceInJs = { '@plugin': `$:/plugins/${author}/${pluginName}` }
   const babelCfg = {
+    presets: ['@babel/env'],
     plugins: [
       [
         require.resolve('babel-plugin-module-resolver'),

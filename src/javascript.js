@@ -2,6 +2,37 @@ const { jsHeader } = require('./wikiFile')
 const processStream = require('read-vinyl-file-stream')
 const log = require('fancy-log')
 const alreadyHasHeader = (content) => content.trim().startsWith('/*\\\n')
+/** @type import('./wikiFile').moduleType[] */
+const jsModuleTypes = [
+  'allfilteroperator',
+  'animation',
+  'authenticator',
+  'bitmapeditoroperation',
+  'command',
+  'config',
+  'filteroperator',
+  'global',
+  'indexer',
+  'info',
+  'isfilteroperator',
+  'library',
+  'macro',
+  'parser',
+  'route',
+  'saver',
+  'startup',
+  'storyview',
+  'texteditoroperation',
+  'tiddlerdeserializer',
+  'tiddlerfield',
+  'tiddlermethod',
+  'upgrader',
+  'utils',
+  'utils-node',
+  'widget',
+  'wikimethod',
+  'wikirule'
+]
 /**
  *
  * @param {Object} conf
@@ -23,10 +54,20 @@ function javascript ({ author, pluginName }) {
     const relativePath = file.relative
     log.info('Processing javascript file: ', file.relative)
     if (alreadyHasHeader(content)) {
-      log.info('File already has proper header')
-      return cb()
+      log.info(`File ${relativePath} already has proper header`)
+      return cb(null, content)
     }
-    const newContent = jsHeader({ author, pluginName, relativePath, content })
+    const moduleType =
+      jsModuleTypes.find((moduleType) =>
+        file.basename.includes(`.${moduleType}.`)
+      ) || 'library'
+    const newContent = jsHeader({
+      author,
+      pluginName,
+      relativePath,
+      content,
+      moduleType
+    })
     cb(null, newContent)
   }
 
