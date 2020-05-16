@@ -44,7 +44,7 @@ const main = ({
   const defaults = {
     sass: `${sourceDir}/**/*.scss`,
     tiddlers: `${sourceDir}/**/*.tid`,
-    js: `${sourceDir}/**/*.js`,
+    javascript: `${sourceDir}/**/*.js`,
     html: `${sourceDir}/**/*.html`,
     pluginInfo: `${sourceDir}/plugin.info`,
     output: path.join(outputDir, author, pluginName)
@@ -85,7 +85,7 @@ const main = ({
 
   function js () {
     return gulp
-      .src(sources.js)
+      .src(sources.javascript)
       .pipe(babel(babelCfg))
       .pipe(javascript({ author, pluginName }))
       .pipe(gulp.dest(sources.output))
