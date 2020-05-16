@@ -1,6 +1,6 @@
 {
   "name": "gulp-tw",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Gulp plugin for easing the process of tiddlywiki specific files",
   "main": "index.js",
   "scripts": {
